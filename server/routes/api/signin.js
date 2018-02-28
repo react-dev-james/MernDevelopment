@@ -1,4 +1,5 @@
 const User =  require('../../models/User');
+const workspace =  require('../../models/workspace');
 const UserSession = require('../../models/UserSession');
 const nodemailer = require('nodemailer');
 
@@ -315,4 +316,49 @@ module.exports = (app) => {
 		});
 
 	});
+
+	app.post('/api/account/registerworkspace',(req,res,next) =>{
+		const { body } = req;
+		 const {
+			fullName,
+			displayName,
+			adminUser,
+			password,
+			confirmpassword,
+		 } = body;
+		 workspace.find({
+			 displayName: displayName
+			},(err, previousSpace) => {
+			 const newWorkspace = new workspace();
+			 newWorkspace.fullName = fullName;
+			 newWorkspace.displayName =  displayName;
+			 newWorkspace.adminUser =  adminUser;
+			 newWorkspace.password =  password;
+			 newWorkspace.save((err, workspace) => {
+				 if(err){
+					 return res.send({
+						 success: false,
+						 message: 'Error:Server error'
+					 });
+				 }
+				 return res.send({
+					 success: true,
+					 message: 'Success'
+				 });
+			 });
+		 });
+	});
+	app.get('/api/account/getworkspaces',(req,res,next) =>{
+		console.log('aaaawwww')
+		// workspace.find().toArray(function(err,res){
+			// 	console.log(res)
+			// });
+			workspace.find({}, function(err, result) {
+				return res.send({
+					result: result
+				});
+				console.log(result)
+			});
+	});
+	
 };
