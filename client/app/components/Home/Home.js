@@ -466,7 +466,7 @@ class Home extends Component {
     return (
       <div className="ui icon input">
         return <Redirect to={"/chartboard/" + token} />;
-         </div>
+      </div>
     );
   }
 
