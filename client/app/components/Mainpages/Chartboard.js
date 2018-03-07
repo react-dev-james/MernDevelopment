@@ -31,7 +31,7 @@ const Chartboard = (props) => {
     return (
       <div>
         return <Redirect to="/" />;
-           </div>
+      </div>
     );
   }
 }
