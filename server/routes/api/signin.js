@@ -63,12 +63,10 @@ module.exports = (app) => {
 	 		}
 
 	 		const newUser = new User();
-	 		console.log(newUser)
 	 		newUser.email = email;
 	 		newUser.firstName =  firstName;
 	 		newUser.lastName =  lastName;
 	 		newUser.password =  newUser.generateHash(password);
-	 		console.log(newUser.save())
 	 		newUser.save((err, user) => {
 	 			if(err){
 	 				return res.send({
@@ -136,8 +134,8 @@ module.exports = (app) => {
  			//When Correct!
  			const userSession = new UserSession();
  			userSession.userId = user._id;
- 			console.log(userSession)
  			userSession.save((err,doc) => {
+ 				console.log(err)
  				if(err){
 	 				return res.send({
 			 			success: false,
@@ -156,9 +154,11 @@ module.exports = (app) => {
 
 	app.post('/api/account/verify',(req,res,next) =>{
 		//Get the token
+		console.log(req)
 		const { query } = req;
 		const { token } = query;
-
+		console.log('aaaaaaaaaaaaaaaaaa')
+		console.log(token)
 		UserSession.find({
 			_id: token,
 			isDeleted: false
