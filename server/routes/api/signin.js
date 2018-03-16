@@ -1,6 +1,5 @@
 const User =  require('../../models/User');
 const UserSession = require('../../models/UserSession');
-
 module.exports = (app) => {
 	/*
 	 *SignUp
@@ -17,29 +16,30 @@ module.exports = (app) => {
 	 	let {
 	 		email
 	 	} = body;
+
 	 	if (!firstName){
-	 		return res.ssend({
+	 		return res.send({
 	 			success: false,
 	 			message: 'Error Missing first name'
 	 		});
 	 	}
 
 	 	if (!lastName){
-	 		return res.ssend({
+	 		return res.send({
 	 			success: false,
 	 			message: 'Error Missing last name'
 	 		});
 	 	}
 
 	 	if (!email){
-	 		return res.ssend({
+	 		return res.send({
 	 			success: false,
 	 			message: 'Error Missing email'
 	 		});
 	 	}
 
 	 	if (!password){
-	 		return res.ssend({
+	 		return res.send({
 	 			success: false,
 	 			message: 'Error Missing password'
 	 		});
@@ -51,27 +51,27 @@ module.exports = (app) => {
 	 		email: email
 	 	},(err, previousUsers) => {
 	 		if(err){
-	 			return res.ssend({
+	 			return res.send({
 		 			success: false,
 		 			message: 'Error:Server error'
 		 		});
 	 		}else if(previousUsers.length>0){
-	 			return res.ssend({
+	 			return res.send({
 		 			success: false,
 		 			message: 'Error: Account already exist.'
 		 		});
 	 		}
 
 	 		const newUser = new User();
-
+	 		console.log(newUser)
 	 		newUser.email = email;
 	 		newUser.firstName =  firstName;
 	 		newUser.lastName =  lastName;
-	 		newUser.password =  newuser.generateHash(password);
-
+	 		newUser.password =  newUser.generateHash(password);
+	 		console.log(newUser.save())
 	 		newUser.save((err, user) => {
 	 			if(err){
-	 				return res.ssend({
+	 				return res.send({
 			 			success: false,
 			 			message: 'Error:Server error'
 			 		});
@@ -136,19 +136,20 @@ module.exports = (app) => {
  			//When Correct!
  			const userSession = new UserSession();
  			userSession.userId = user._id;
+ 			console.log(userSession)
  			userSession.save((err,doc) => {
  				if(err){
 	 				return res.send({
 			 			success: false,
-			 			message: 'Error:Server error'
+			 			message: 'Error:Server(session) error'
 			 		});
 	 			}
 
 	 			return res.send({
-	 			success: true,
-	 			message: 'Valid Sign In',
-	 			token: doc._id
-	 		});
+		 			success: true,
+		 			message: 'Valid Sign In',
+		 			token: doc._id
+		 		});
  			});
 	 	});
 	 });
