@@ -120,7 +120,7 @@ module.exports = (app) => {
  			if(users.length != 1){
  				return res.send({
  					success: false,
- 					message: 'Error: Invalid'
+ 					message: 'Unregistered User!'
  				});
  			}
 
@@ -128,7 +128,7 @@ module.exports = (app) => {
  			if(!user.validPassword(password)){
  				return res.send({
  					success: false,
- 					message: 'Error: Invalid'
+ 					message: 'Invalid Password!'
  				});
  			}
  			//When Correct!

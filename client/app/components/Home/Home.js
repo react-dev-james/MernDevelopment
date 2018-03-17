@@ -21,6 +21,7 @@ class Home extends Component {
       signUpLastName:'',
       signUpEmail:'',
       signUpPassword:'',
+      signUpConfirmPassword:'',
     };
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
     this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
@@ -28,6 +29,7 @@ class Home extends Component {
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
     this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
+    this.onTextboxChangeSignUpConfirmPassword = this.onTextboxChangeSignUpConfirmPassword.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     this.logout = this.logout.bind(this);
@@ -73,6 +75,12 @@ class Home extends Component {
     });
   }
 
+  onTextboxChangeSignUpConfirmPassword(event){
+    this.setState({
+      signUpConfirmPassword:event.target.value,
+    });
+  }
+
   onTextboxChangeSignUpFirstName(event){
     this.setState({
       signUpFirstName:event.target.value,
@@ -92,37 +100,50 @@ class Home extends Component {
       signUpLastName,
       signUpEmail,
       signUpPassword,
+      signUpConfirmPassword,
     } = this.state;
+    if(signUpPassword != signUpConfirmPassword) alert("Please Input Password and Confirm Password Correctly!")
+    else{
 
-    this.setState({
-      isLoading:true,
-    });
-    fetch('/api/account/signup',{
-      method:'POST',
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName:signUpFirstName,
-        lastName:signUpLastName,
-        email:signUpEmail,
-        password:signUpPassword,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        if(json.success){
-          setInStorage('the_main_app',{token:json.token});
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-            signUpEmail:'',
-            signUpPassword:'',
-            signUpFirstName:'',
-            signUpLastName:''
+        this.setState({
+          isLoading:true,
+        });
+        fetch('/api/account/signup',{
+          method:'POST',
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            firstName:signUpFirstName,
+            lastName:signUpLastName,
+            email:signUpEmail,
+            password:signUpPassword,
+          }),
+        }).then(res => res.json())
+          .then(json => {
+            if(json.success){
+              setInStorage('the_main_app',{token:json.token});
+              this.setState({
+                signUpError: json.message,
+                isLoading: false,
+                signUpEmail:'',
+                signUpPassword:'',
+                signUpFirstName:'',
+                signUpLastName:''
+              });
+            }else{
+              alert(json.message)
+              this.setState({
+                signInError: json.message,
+                token:json.token,
+                isLoading: false,
+                signInEmail:'',
+                signInPassword:'',
+              });
+            }
+            
           });
-        }
-        
-      });
+    }
   }
 
   onSignIn(){
@@ -156,6 +177,15 @@ class Home extends Component {
             signInEmail:'',
             signInPassword:'',
           });
+        }else{
+          alert(json.message)
+          this.setState({
+            signInError: json.message,
+            token:json.token,
+            isLoading: false,
+            signInEmail:'',
+            signInPassword:'',
+          });
         }
         
       });
@@ -181,6 +211,7 @@ class Home extends Component {
       signUpLastName,
       signUpEmail,
       signUpPassword,
+      signUpConfirmPassword,
     } = this.state;
     if(isLoading){
       return (<div className="row"><h2 className="col-md-4 col-md-offset-4">Loading...</h2></div>)
@@ -230,7 +261,7 @@ class Home extends Component {
             <div className="row">
               <h2 className="text-center m-b-30">Sign Up</h2>
               <br />
-              <br />
+              <br />s
             </div>
             <div className="col-md-4 col-md-offset-4 well">
               <div className="row input-group">
@@ -276,6 +307,16 @@ class Home extends Component {
                   onChange={this.onTextboxChangeSignUpPassword}
               />
               </div>
+              <div className="row input-group">
+                <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
+                <input 
+                  type="password" 
+                  className="form-control" 
+                  placeholder="Confirm Password"
+                  value={signUpConfirmPassword}
+                  onChange={this.onTextboxChangeSignUpConfirmPassword}
+                />
+              </div>
                 
               <br></br>
               <div className="row input-group" id="loginBtnGroup">
@@ -306,11 +347,7 @@ class Home extends Component {
         <div id="nav" className="col-md-2 col-md-offset-10">
           <button className="btn btn-default" onClick={this.logout}>LogOut</button>
         </div>
-        <style>{"\
-          #nav{\
-            margin-top:2%;\
-          }\
-        "}</style>
+        
       </div>
     );
   }
