@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
-
 import {
   getFromStorage,
   setInStorage
@@ -35,31 +34,19 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    // const obj =  getFromStorage('the_main_app');
-    // if(obj){
-    //   const { token } = obj;
-
-    //   //Verify token
-    //   fetch('/api/account/verify?token?=' +token)
-    //   .then(res=>res.json())
-    //   .then(json=>{
-    //     if(json.success){
-    //       this.setState({
-    //         token,
-    //         isLoading:false
-    //       });
-    //     }else{
-    //       this.setState({
-    //         isLoading:false
-    //       });
-    //     }
-    //   });
-    // }else{
+      
       this.setState({
         isLoading: false
       });
+  }
 
-    // }
+  showlogin(){
+    document.getElementById("signin").style.display = 'block';
+    document.getElementById("signup").style.display = 'none';
+  }
+  showsignup(){
+    document.getElementById("signin").style.display = 'none';
+    document.getElementById("signup").style.display = 'block';
   }
 
   onTextboxChangeSignInEmail(event){
@@ -175,44 +162,12 @@ class Home extends Component {
   }
 
   logout(){
-    // this.setState({
-    //   isLoading:true
-    // });
-    // const obj =  getFromStorage('the_main_app');
-    // const { token } = obj;
-    // if(obj){
-    //   //Verify token
-    //   fetch('/api/account/logout?token?=' +token)
-    //   .then(res=>res.json())
-    //   .then(json=>{
-    //     if(json.success){
-    //       this.setState({
-    //         token: '',
-    //         isLoading:false
-    //       });
-    //     }else{
-    //       this.setState({
-    //         isLoading:false
-    //       });
-    //     }
-    //   });
-    // }else{
       this.setState({
         token: '',
         isLoading: false
       });
 
-    // }
   }
-  /*
-    fetch('/api/counters')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          counters: json
-        });
-      });
-  */
  
   render() {
     const{
@@ -228,24 +183,87 @@ class Home extends Component {
       signUpPassword,
     } = this.state;
     if(isLoading){
-      return (<div><p>Loading...</p></div>)
+      return (<div className="row"><h2 className="col-md-4 col-md-offset-4">Loading...</h2></div>)
     }
     console.log(token)
     if(!token){
 
       return (
         <div className="row">
-          <div className="row">
-            <div className="col-md-4"></div>
-            <div className="col-md-4 well">
+         <div className="row" id="signin">
+            <div className="row">
+              <h2 className="text-center m-b-30">Sign In</h2>
+              <br />
+              <br />
+            </div>
+            <div className="row">
+              <div className="col-md-4 col-md-offset-4 well">
+                <div className="row input-group">
+                  <span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    placeholder="Email"
+                    value={signInEmail}
+                    onChange={this.onTextboxChangeSignInEmail}
+                  />
+                </div>
+                <div className="row input-group">
+                  <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
+                  <input 
+                    type="password" 
+                    className="form-control" 
+                    placeholder="password"
+                    value={signInPassword}
+                    onChange={this.onTextboxChangeSignInPassword}
+                  />
+                </div>
+                <br></br>
+                <div className="row input-group" id="loginBtnGroup">
+                  <button onClick={this.onSignIn} className="btn btn-default">Log In</button>
+                  <button onClick={this.showsignup} className="btn btn-link">Register</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row" id="signup">
+            <div className="row">
+              <h2 className="text-center m-b-30">Sign Up</h2>
+              <br />
+              <br />
+            </div>
+            <div className="col-md-4 col-md-offset-4 well">
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
                 <input 
                   type="text" 
                   className="form-control" 
+                  name="email" 
+                  placeholder="FirstName"
+                  value={signUpFirstName}
+                  onChange={this.onTextboxChangeSignUpFirstName}
+                />
+              </div>
+              <div className="row input-group">
+                <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  name="email" 
+                  placeholder="LastName"
+                  value={signUpLastName}
+                  onChange={this.onTextboxChangeSignUpLastName}
+                />
+              </div>
+              <div className="row input-group">
+                <span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  name="email" 
                   placeholder="Email"
-                  value={signInEmail}
-                  onChange={this.onTextboxChangeSignInEmail}
+                  value={signUpEmail}
+                  onChange={this.onTextboxChangeSignUpEmail}
                 />
               </div>
               <div className="row input-group">
@@ -254,79 +272,45 @@ class Home extends Component {
                   type="password" 
                   className="form-control" 
                   placeholder="password"
-                  value={signInPassword}
-                  onChange={this.onTextboxChangeSignInPassword}
-                />
+                  value={signUpPassword}
+                  onChange={this.onTextboxChangeSignUpPassword}
+              />
               </div>
+                
               <br></br>
               <div className="row input-group" id="loginBtnGroup">
-                <button onClick={this.onSignIn} className="btn btn-default">Log In</button>
-                <button className="btn btn-link">Register</button>
+                <button onClick={this.onSignUp} className="btn btn-default">Register</button>
+                <button onClick={this.showlogin} className="btn btn-link">Log in</button>
               </div>
             </div>
           </div>
-          <br />
-          <br />
-          <div className="col-md-4"></div>
-          <div className="col-md-4 well">
-            <div className="row input-group">
-              <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-              <input 
-                type="text" 
-                className="form-control" 
-                name="email" 
-                placeholder="FirstName"
-                value={signUpFirstName}
-                onChange={this.onTextboxChangeSignUpFirstName}
-              />
-            </div>
-            <div className="row input-group">
-              <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-              <input 
-                type="text" 
-                className="form-control" 
-                name="email" 
-                placeholder="LastName"
-                value={signUpLastName}
-                onChange={this.onTextboxChangeSignUpLastName}
-              />
-            </div>
-            <div className="row input-group">
-              <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-              <input 
-                type="text" 
-                className="form-control" 
-                name="email" 
-                placeholder="Email"
-                value={signUpEmail}
-                onChange={this.onTextboxChangeSignUpEmail}
-              />
-            </div>
-            <div className="row input-group">
-              <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
-              <input 
-                type="password" 
-                className="form-control" 
-                placeholder="password"
-                value={signUpPassword}
-                onChange={this.onTextboxChangeSignUpPassword}
-            />
-            </div>
-              
-            <br></br>
-            <div className="row input-group" id="loginBtnGroup">
-              <button onClick={this.onSignUp} className="btn btn-default">Register</button>
-              <button className="btn btn-link">Log in</button>
-            </div>
-          </div>
+          <style>{"\
+          #signup{\
+            display:none;\
+            margin-top:5%;\
+          }\
+          #signin{\
+            margin-top:5%;\
+          }\
+          .input-group{\
+            margin-top:1%;\
+          }\
+        "}</style>
         </div>
+        
       );
     }
 
     return(
       <div>
-        <p>Account</p>
-        <button onClick={this.logout}>LogOut</button>
+        <div id="nav" className="col-md-2 col-md-offset-10">
+          <button className="btn btn-default" onClick={this.logout}>LogOut</button>
+        </div>
+        <style>{"\
+          #nav{\
+            margin-top:2%;\
+          }\
+        "}</style>
       </div>
     );
   }

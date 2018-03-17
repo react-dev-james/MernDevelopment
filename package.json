@@ -1,11 +1,11 @@
 {
-  "name": "MERN-boilerplate",
+  "name": "Slack",
   "version": "1.0.0",
   "description": "MERN stack project boilerplate",
-  "author": "Eugene Cheung",
+  "author": "DedicatedWebStar",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arkon/MERN-boilerplate.git"
+    "url": "git+https:///github.com/DedicatedWebStar/MernDevelopment.git"
   },
   "license": "MIT",
   "private": true,
