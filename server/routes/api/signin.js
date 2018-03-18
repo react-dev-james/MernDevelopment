@@ -10,7 +10,10 @@ module.exports = (app) => {
 	 	const {
 	 		firstName,
 	 		lastName,
-	 		password
+	 		password,
+	 		birhday,
+	 		address,
+	 		sex
 	 	} = body;
 
 	 	let {
@@ -66,6 +69,9 @@ module.exports = (app) => {
 	 		newUser.email = email;
 	 		newUser.firstName =  firstName;
 	 		newUser.lastName =  lastName;
+	 		newUser.birhday =  birhday;
+	 		newUser.address =  address;
+	 		newUser.sex =  sex;
 	 		newUser.password =  newUser.generateHash(password);
 	 		newUser.save((err, user) => {
 	 			if(err){

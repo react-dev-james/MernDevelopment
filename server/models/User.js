@@ -17,6 +17,18 @@ const UsersSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  birhday: {
+    type: String,
+    default: ''
+  },
+  address: {
+    type: String,
+    default: ''
+  },
+  sex: {
+    type: String,
+    default: ''
+  },
   isDeleted: {
     type: Boolean,
     default:false

@@ -22,6 +22,9 @@ class Home extends Component {
       signUpEmail:'',
       signUpPassword:'',
       signUpConfirmPassword:'',
+      signUpAddress:'',
+      signUpDate:'',
+      signUpSex:'',
     };
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
     this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
@@ -29,7 +32,10 @@ class Home extends Component {
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
     this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
+    this.onTextboxChangeSignUpAddress = this.onTextboxChangeSignUpAddress.bind(this);
+    this.onTextboxChangeSignUpDate = this.onTextboxChangeSignUpDate.bind(this);
     this.onTextboxChangeSignUpConfirmPassword = this.onTextboxChangeSignUpConfirmPassword.bind(this);
+    this.onTextboxChangeSignUpSex = this.onTextboxChangeSignUpSex.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     this.onSignUpTest = this.onSignUpTest.bind(this);
@@ -39,7 +45,10 @@ class Home extends Component {
   componentDidMount() {
       
       this.setState({
-        isLoading: false
+        isLoading: false,
+        signUpDate:'',
+        signUpAddress:'',
+        signUpSex:'',
       });
   }
 
@@ -93,6 +102,22 @@ class Home extends Component {
       signUpLastName:event.target.value,
     });
   }
+  onTextboxChangeSignUpAddress(event){
+    this.setState({
+      signUpAddress:event.target.value,
+    });
+  }
+  onTextboxChangeSignUpDate(event){
+    this.setState({
+      signUpDate:event.target.value,
+    });
+  }
+  onTextboxChangeSignUpSex(event){
+    this.setState({
+      signUpSex:event,
+    });
+    
+  }
 
   onSignUp(){
     
@@ -102,6 +127,9 @@ class Home extends Component {
       signUpEmail,
       signUpPassword,
       signUpConfirmPassword,
+      signUpDate,
+      signUpAddress,
+      signUpSex,
     } = this.state;
     if(signUpPassword != signUpConfirmPassword) alert("Please Input Password and Confirm Password Correctly!")
     else{
@@ -119,6 +147,9 @@ class Home extends Component {
             lastName:signUpLastName,
             email:signUpEmail,
             password:signUpPassword,
+            birhday:signUpDate,
+            address:signUpAddress,
+            sex:signUpSex,
           }),
         }).then(res => res.json())
           .then(json => {
@@ -242,6 +273,9 @@ class Home extends Component {
       signUpEmail,
       signUpPassword,
       signUpConfirmPassword,
+      signUpAddress,
+      signUpDate,
+      signUpSex,
     } = this.state;
     if(isLoading){
       return (<div className="row"><h2 className="col-md-4 col-md-offset-4">Loading...</h2></div>)
@@ -317,6 +351,38 @@ class Home extends Component {
                 />
               </div>
               <div className="row input-group">
+                <span className="input-group-addon"><i className="glyphicon glyphicon-calendar"></i></span>
+                <input 
+                  type="date" 
+                  className="form-control" 
+                  id="birthday"
+                  placeholder="BirthDay"
+                  value={signUpDate}
+                  onChange={this.onTextboxChangeSignUpDate}
+                />
+              </div>
+              <div className="row input-group">
+                <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
+                <div className="container row">
+                    <div className="radio">
+                      <label className="radiospace"><input onClick={() => this.onTextboxChangeSignUpSex('Male')} type="radio" name="sex"/>Male</label>
+                      <label className="radiospace"><input onClick={() => this.onTextboxChangeSignUpSex('Female')} type="radio" name="sex"/>Female</label>
+                    </div>
+
+                </div>
+              </div>
+              <div className="row input-group">
+                <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  name="email" 
+                  placeholder="Address"
+                  value={signUpAddress}
+                  onChange={this.onTextboxChangeSignUpAddress}
+                />
+              </div>
+              <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
                 <div className="col-md-8">
                   <input 
@@ -376,6 +442,13 @@ class Home extends Component {
           #email{\
             margin-left:-15px;\
             width:280px;\
+          }\
+          #birthday{\
+            width:60%;\
+          }\
+          .radiospace{\
+            float:left;\
+            margin-left:30px;\
           }\
         "}</style>
         </div>
