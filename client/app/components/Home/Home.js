@@ -32,6 +32,7 @@ class Home extends Component {
     this.onTextboxChangeSignUpConfirmPassword = this.onTextboxChangeSignUpConfirmPassword.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
+    this.onSignUpTest = this.onSignUpTest.bind(this);
     this.logout = this.logout.bind(this);
   }
 
@@ -144,6 +145,35 @@ class Home extends Component {
             
           });
     }
+  }
+
+
+  onSignUpTest(){
+    
+    const {
+      signUpEmail,
+    } = this.state;
+
+      this.setState({
+        isLoading:false,
+      });
+      fetch('/api/account/signuptest',{
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email:signUpEmail,
+        }),
+      }).then(res => res.json())
+        .then(json => {
+          if(json.success){
+            alert(json.message)
+          }else{
+            alert(json.message)
+          }
+          
+        });
   }
 
   onSignIn(){
@@ -288,14 +318,20 @@ class Home extends Component {
               </div>
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  name="email" 
-                  placeholder="Email"
-                  value={signUpEmail}
-                  onChange={this.onTextboxChangeSignUpEmail}
-                />
+                <div className="col-md-8">
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    name="email" 
+                    id="email"
+                    placeholder="Email"
+                    value={signUpEmail}
+                    onChange={this.onTextboxChangeSignUpEmail}
+                  />
+                </div>
+                <div className="col-md-3">
+                  <button onClick={this.onSignUpTest} className="btn btn-warning">Duplication</button>
+                </div>
               </div>
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
@@ -322,6 +358,7 @@ class Home extends Component {
               <div className="row input-group" id="loginBtnGroup">
                 <button onClick={this.onSignUp} className="btn btn-default">Register</button>
                 <button onClick={this.showlogin} className="btn btn-link">Log in</button>
+                
               </div>
             </div>
           </div>
@@ -335,6 +372,10 @@ class Home extends Component {
           }\
           .input-group{\
             margin-top:1%;\
+          }\
+          #email{\
+            margin-left:-15px;\
+            width:280px;\
           }\
         "}</style>
         </div>

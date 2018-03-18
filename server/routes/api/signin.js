@@ -84,6 +84,46 @@ module.exports = (app) => {
 	 	});
 	});
 
+
+	app.post('/api/account/signuptest',(req,res,next) =>{
+	 	const { body } = req;
+
+	 	let {
+	 		email
+	 	} = body;
+
+
+	 	if (!email){
+	 		return res.send({
+	 			success: false,
+	 			message: 'Error: Missing email'
+	 		});
+	 	}
+
+
+	 	email = email.toLowerCase();
+
+	 	User.find({
+	 		email: email
+	 	},(err, previousUsers) => {
+	 		if(err){
+	 			return res.send({
+		 			success: false,
+		 			message: 'Error:Server error'
+		 		});
+	 		}else if(previousUsers.length>0){
+	 			return res.send({
+		 			success: false,
+		 			message: 'Error: Account already exist.'
+		 		});
+	 		}
+	 		return res.send({
+	 			success: true,
+	 			message: 'Available User'
+	 		});
+	 	});
+	});
+
 	app.post('/api/account/signin', (req, res, next) => {
 	 	const { body } = req;
 	 	const {
@@ -152,13 +192,14 @@ module.exports = (app) => {
 	 	});
 	 });
 
+
+
+
 	app.post('/api/account/verify',(req,res,next) =>{
 		//Get the token
 		console.log(req)
 		const { query } = req;
 		const { token } = query;
-		console.log('aaaaaaaaaaaaaaaaaa')
-		console.log(token)
 		UserSession.find({
 			_id: token,
 			isDeleted: false
