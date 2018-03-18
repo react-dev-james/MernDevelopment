@@ -161,6 +161,9 @@ class Home extends Component {
                 signUpEmail:'',
                 signUpPassword:'',
                 signUpFirstName:'',
+                signUpAddress:'',
+                signUpConfirmPassword:'',
+                signUpDate:'',
                 signUpLastName:''
               });
             }else{
@@ -171,6 +174,9 @@ class Home extends Component {
                 isLoading: false,
                 signInEmail:'',
                 signInPassword:'',
+                signUpConfirmPassword:'',
+                signUpDate:'',
+                signUpAddress:'',
               });
             }
             

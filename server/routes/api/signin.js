@@ -1,5 +1,17 @@
 const User =  require('../../models/User');
 const UserSession = require('../../models/UserSession');
+const nodemailer = require('nodemailer');
+
+let transporter = nodemailer.createTransport({
+    service:'Gmail',
+    host: 'smtp.gmail.com',
+    auth:{
+    	user:'xuicheng1992130@gmail.com',
+    	pass:'david113'
+    }
+});
+
+
 module.exports = (app) => {
 	/*
 	 *SignUp
@@ -20,6 +32,7 @@ module.exports = (app) => {
 	 		email
 	 	} = body;
 
+	 	
 	 	if (!firstName){
 	 		return res.send({
 	 			success: false,
@@ -80,7 +93,23 @@ module.exports = (app) => {
 			 			message: 'Error:Server error'
 			 		});
 	 			}
+	 			var mailOption = {
+			 		from:'"Admin" <xuicheng1992130@gmail.com>',
+			 		to:email,
+			 		subject:'Active Your ChatApp Account',
+			 		html:"Hello, <br/> Please Click on the link to verify your mail. <br/><a href='localhost:8080/mailverify/"+user._id+"'>Click here</a>"
+			 	}
+			 	transporter.sendMail(mailOption, (error, info) => {
+			        if (error) {
+			            return console.log(error);
+			        }
+			        console.log('Message sent: %s', info.messageId);
+			        // Preview only available when sending through an Ethereal account
+			        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
+			        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+			        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+			    });
 	 			return res.send({
 		 			success: true,
 		 			message: 'Signed Up'
@@ -90,7 +119,33 @@ module.exports = (app) => {
 	 	});
 	});
 
+	app.post('/api/account/signupverify',(req,res,next) =>{
+		const { body } = req;
+		let {
+	 		token
+	 	} = body;
+	 	User.findOneAndUpdate({
+			_id: token
+		}, {
+			$set:{
+				isActivated:true
+			}
+		}, null, (err, seesions) => {
+			if(err){
+ 				return res.send({
+		 			success: false,
+		 			message: 'Error:Server error'
+		 		});
+ 			}
 
+ 			return res.send({
+	 			success: true,
+	 			message: 'Good'
+	 		});
+		});
+
+	});
+	
 	app.post('/api/account/signuptest',(req,res,next) =>{
 	 	const { body } = req;
 
