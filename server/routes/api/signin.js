@@ -247,7 +247,8 @@ module.exports = (app) => {
 	 			return res.send({
 		 			success: true,
 		 			message: 'Valid Sign In',
-		 			token: doc._id
+		 			token: doc._id,
+		 			name:user.lastName
 		 		});
  			});
 	 	});

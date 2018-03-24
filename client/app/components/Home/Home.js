@@ -5,7 +5,8 @@ import {
   getFromStorage,
   setInStorage
 } from '../../utils/storage';
-
+import Mainboard from '../Mainpages/Mainboard';
+import Chartboard from '../Mainpages/Chartboard';
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -236,6 +237,7 @@ class Home extends Component {
     }).then(res => res.json())
       .then(json => {
         if(json.success){
+          localStorage.setItem('name',json.name)
           setInStorage('the_main_app',{token:json.token});
           this.setState({
             signInError: json.message,
@@ -245,7 +247,7 @@ class Home extends Component {
             signInPassword:'',
           });
         }else{
-          alert(json.message)
+          
           this.setState({
             signInError: json.message,
             token:json.token,
@@ -464,10 +466,9 @@ class Home extends Component {
 
     return(
       <div>
-        <div id="nav" className="col-md-2 col-md-offset-10">
-          <button className="btn btn-default" onClick={this.logout}>LogOut</button>
+        <div className="col-md-12">
+          <Chartboard/>
         </div>
-        
       </div>
     );
   }
