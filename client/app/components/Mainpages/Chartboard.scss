@@ -1,0 +1,37 @@
+$background_color_1: white;
+$background_color_2: #ededed;
+$background_color_3: #fbfcdb;
+
+.chatspace{
+	background-color: $background_color_1;
+	min-height:529.6px;
+	max-height:1638.4px;
+
+}
+hr{
+	height:2px;
+}
+.messagespace{
+	min-height:542px;
+	max-height:1000px;
+}
+.chartboard{
+	min-height:662px;
+	max-height:2048px;
+}
+#Messagetxt{
+	width:90%;
+	margin-left:5%;
+	margin-top:60px;
+	background-color: $background_color_3;
+}
+#namespace{
+	font-weight:bold;
+}
+.chatbody{
+	margin-left:50px;
+}
+.chatmessage{
+	margin-top:10px;
+	background-color: gray;
+}
