@@ -1,31 +1,33 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import {
   getFromStorage,
   setInStorage
 } from '../../utils/storage';
 import Mainboard from '../Mainpages/Mainboard';
 import Chartboard from '../Mainpages/Chartboard';
+import './Home.scss';
 class Home extends Component {
+
   constructor(props) {
     super(props);
-
     this.state = {
       isLoading: true,
       token: '',
-      signUpError:'',
-      signInError:'',
-      signInEmail:'',
-      signInPassword:'',
-      signUpFirstName:'',
-      signUpLastName:'',
-      signUpEmail:'',
-      signUpPassword:'',
-      signUpConfirmPassword:'',
-      signUpAddress:'',
-      signUpDate:'',
-      signUpSex:'',
+      signUpError: '',
+      signInError: '',
+      signInEmail: localStorage.getItem('defaultusermail'),
+      signInPassword: localStorage.getItem('defaultpassword'),
+      signUpFirstName: '',
+      signUpLastName: '',
+      signUpEmail: '',
+      signUpPassword: '',
+      signUpConfirmPassword: '',
+      signUpAddress: '',
+      signUpDate: '',
+      signUpSex: '',
+      checked: localStorage.getItem('flag') ==="true",
     };
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
     this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
@@ -44,84 +46,93 @@ class Home extends Component {
   }
 
   componentDidMount() {
-      
-      this.setState({
-        isLoading: false,
-        signUpDate:'',
-        signUpAddress:'',
-        signUpSex:'',
-      });
-  }
 
-  showlogin(){
+    this.setState({
+      isLoading: false,
+      signUpDate: '',
+      signUpAddress: '',
+      signUpSex: '',
+    });
+  }
+  componentWillMount() {
+
+    console.log(this.state)
+
+    // const flag=localStorage.getItem('flag');
+    // this.setState({checked: flag});
+    // alert(this.state.checked)
+  }
+  showlogin() {
     document.getElementById("signin").style.display = 'block';
     document.getElementById("signup").style.display = 'none';
   }
-  showsignup(){
+  showsignup() {
     document.getElementById("signin").style.display = 'none';
     document.getElementById("signup").style.display = 'block';
   }
 
-  onTextboxChangeSignInEmail(event){
+  onTextboxChangeSignInEmail(event) {
     this.setState({
-      signInEmail:event.target.value,
+      signInEmail: event.target.value,
     });
   }
 
-  onTextboxChangeSignInPassword(event){
+  onTextboxChangeSignInPassword(event) {
     this.setState({
-      signInPassword:event.target.value,
+      signInPassword: event.target.value,
     });
   }
 
-  onTextboxChangeSignUpEmail(event){
+  onTextboxChangeSignUpEmail(event) {
     this.setState({
-      signUpEmail:event.target.value,
+      signUpEmail: event.target.value,
     });
   }
 
-  onTextboxChangeSignUpPassword(event){
+  onTextboxChangeSignUpPassword(event) {
     this.setState({
-      signUpPassword:event.target.value,
+      signUpPassword: event.target.value,
     });
   }
 
-  onTextboxChangeSignUpConfirmPassword(event){
+  onTextboxChangeSignUpConfirmPassword(event) {
     this.setState({
-      signUpConfirmPassword:event.target.value,
+      signUpConfirmPassword: event.target.value,
     });
   }
 
-  onTextboxChangeSignUpFirstName(event){
+  onTextboxChangeSignUpFirstName(event) {
     this.setState({
-      signUpFirstName:event.target.value,
+      signUpFirstName: event.target.value,
     });
   }
 
-  onTextboxChangeSignUpLastName(event){
+  onTextboxChangeSignUpLastName(event) {
     this.setState({
-      signUpLastName:event.target.value,
+      signUpLastName: event.target.value,
     });
   }
-  onTextboxChangeSignUpAddress(event){
+  onTextboxChangeSignUpAddress(event) {
     this.setState({
-      signUpAddress:event.target.value,
+      signUpAddress: event.target.value,
     });
   }
-  onTextboxChangeSignUpDate(event){
+  onTextboxChangeSignUpDate(event) {
     this.setState({
-      signUpDate:event.target.value,
+      signUpDate: event.target.value,
     });
   }
-  onTextboxChangeSignUpSex(event){
+  onTextboxChangeSignUpSex(event) {
     this.setState({
-      signUpSex:event,
+      signUpSex: event,
     });
-    
-  }
 
-  onSignUp(){
-    
+  }
+  onCheck(event) {
+    localStorage.setItem('flag', event.target.checked)
+  }
+  onSignUp() {
+
     const {
       signUpFirstName,
       signUpLastName,
@@ -132,89 +143,89 @@ class Home extends Component {
       signUpAddress,
       signUpSex,
     } = this.state;
-    if(signUpPassword != signUpConfirmPassword) alert("Please Input Password and Confirm Password Correctly!")
-    else{
+    if (signUpPassword != signUpConfirmPassword) alert("Please Input Password and Confirm Password Correctly!")
+    else {
 
-        this.setState({
-          isLoading:true,
+      this.setState({
+        isLoading: true,
+      });
+      fetch('/api/account/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: signUpFirstName,
+          lastName: signUpLastName,
+          email: signUpEmail,
+          password: signUpPassword,
+          birhday: signUpDate,
+          address: signUpAddress,
+          sex: signUpSex,
+        }),
+      }).then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            setInStorage('the_main_app', { token: json.token });
+            this.setState({
+              signUpError: json.message,
+              isLoading: false,
+              signUpEmail: '',
+              signUpPassword: '',
+              signUpFirstName: '',
+              signUpAddress: '',
+              signUpConfirmPassword: '',
+              signUpDate: '',
+              signUpLastName: ''
+            });
+          } else {
+            alert(json.message)
+            this.setState({
+              signInError: json.message,
+              token: json.token,
+              isLoading: false,
+              signInEmail: '',
+              signInPassword: '',
+              signUpConfirmPassword: '',
+              signUpDate: '',
+              signUpAddress: '',
+            });
+          }
+
         });
-        fetch('/api/account/signup',{
-          method:'POST',
-          headers:{
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            firstName:signUpFirstName,
-            lastName:signUpLastName,
-            email:signUpEmail,
-            password:signUpPassword,
-            birhday:signUpDate,
-            address:signUpAddress,
-            sex:signUpSex,
-          }),
-        }).then(res => res.json())
-          .then(json => {
-            if(json.success){
-              setInStorage('the_main_app',{token:json.token});
-              this.setState({
-                signUpError: json.message,
-                isLoading: false,
-                signUpEmail:'',
-                signUpPassword:'',
-                signUpFirstName:'',
-                signUpAddress:'',
-                signUpConfirmPassword:'',
-                signUpDate:'',
-                signUpLastName:''
-              });
-            }else{
-              alert(json.message)
-              this.setState({
-                signInError: json.message,
-                token:json.token,
-                isLoading: false,
-                signInEmail:'',
-                signInPassword:'',
-                signUpConfirmPassword:'',
-                signUpDate:'',
-                signUpAddress:'',
-              });
-            }
-            
-          });
     }
   }
 
 
-  onSignUpTest(){
-    
+  onSignUpTest() {
+
     const {
       signUpEmail,
     } = this.state;
 
-      this.setState({
-        isLoading:false,
+    this.setState({
+      isLoading: false,
+    });
+    fetch('/api/account/signuptest', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: signUpEmail,
+      }),
+    }).then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          alert(json.message)
+        } else {
+          alert(json.message)
+        }
+
       });
-      fetch('/api/account/signuptest',{
-        method:'POST',
-        headers:{
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email:signUpEmail,
-        }),
-      }).then(res => res.json())
-        .then(json => {
-          if(json.success){
-            alert(json.message)
-          }else{
-            alert(json.message)
-          }
-          
-        });
   }
 
-  onSignIn(){
+  onSignIn() {
     const {
       signInFirstName,
       signInLastName,
@@ -223,53 +234,60 @@ class Home extends Component {
     } = this.state;
 
     this.setState({
-      isLoading:true,
+      isLoading: true,
     });
-    fetch('/api/account/signin',{
-      method:'POST',
-      headers:{
+    fetch('/api/account/signin', {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email:signInEmail,
-        password:signInPassword
+        email: signInEmail,
+        password: signInPassword
       }),
     }).then(res => res.json())
       .then(json => {
-        if(json.success){
-          localStorage.setItem('name',json.name)
-          setInStorage('the_main_app',{token:json.token});
+        if (json.success) {
+          if(localStorage.getItem('flag')==='true'){
+            localStorage.setItem('defaultusermail', signInEmail)
+            localStorage.setItem('defaultpassword', signInPassword)
+          }else{
+            localStorage.setItem('defaultusermail', '')
+            localStorage.setItem('defaultpassword', '')
+          }
+          localStorage.setItem('name', json.name)
+          setInStorage('the_main_app', { token: json.token });
           this.setState({
             signInError: json.message,
-            token:json.token,
+            token: json.token,
             isLoading: false,
-            signInEmail:'',
-            signInPassword:'',
+            signInEmail: '',
+            signInPassword: '',
           });
-        }else{
-          
+        } else {
+          localStorage.setItem('flag', false)
           this.setState({
             signInError: json.message,
-            token:json.token,
+            token: json.token,
             isLoading: false,
-            signInEmail:'',
-            signInPassword:'',
+            signInEmail: '',
+            signInPassword: '',
           });
         }
-        
+
       });
   }
 
-  logout(){
-      this.setState({
-        token: '',
-        isLoading: false
-      });
+  logout() {
+    this.setState({
+      token: '',
+      isLoading: false
+    });
 
   }
- 
+
   render() {
-    const{
+    const {
       isLoading,
       token,
       signUpError,
@@ -285,15 +303,13 @@ class Home extends Component {
       signUpDate,
       signUpSex,
     } = this.state;
-    if(isLoading){
+    if (isLoading) {
       return (<div className="row"><h2 className="col-md-4 col-md-offset-4">Loading...</h2></div>)
     }
-    console.log(token)
-    if(!token){
-
+    if (!token) {
       return (
         <div className="row">
-         <div className="row" id="signin">
+          <div className="row" id="signin">
             <div className="row">
               <h2 className="text-center m-b-30">Sign In</h2>
               <br />
@@ -303,9 +319,9 @@ class Home extends Component {
               <div className="col-md-4 col-md-offset-4 well">
                 <div className="row input-group">
                   <span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
-                  <input 
-                    type="text" 
-                    className="form-control" 
+                  <input
+                    type="text"
+                    className="form-control"
                     placeholder="Email"
                     value={signInEmail}
                     onChange={this.onTextboxChangeSignInEmail}
@@ -313,15 +329,19 @@ class Home extends Component {
                 </div>
                 <div className="row input-group">
                   <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
-                  <input 
-                    type="password" 
-                    className="form-control" 
+                  <input
+                    type="password"
+                    className="form-control"
                     placeholder="password"
                     value={signInPassword}
                     onChange={this.onTextboxChangeSignInPassword}
                   />
                 </div>
                 <br></br>
+                <div className="row input-group">
+                  <input type="checkbox" id="rememberpwd" onClick={this.onCheck.bind(this)} defaultChecked={this.state.checked} /><span>Remember User</span>
+                </div>
+                <br />
                 <div className="row input-group" id="loginBtnGroup">
                   <button onClick={this.onSignIn} className="btn btn-default">Log In</button>
                   <button onClick={this.showsignup} className="btn btn-link">Register</button>
@@ -333,15 +353,15 @@ class Home extends Component {
             <div className="row">
               <h2 className="text-center m-b-30">Sign Up</h2>
               <br />
-              <br />s
+              <br />
             </div>
             <div className="col-md-4 col-md-offset-4 well">
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  name="email" 
+                <input
+                  type="text"
+                  className="form-control"
+                  name="email"
                   placeholder="FirstName"
                   value={signUpFirstName}
                   onChange={this.onTextboxChangeSignUpFirstName}
@@ -349,10 +369,10 @@ class Home extends Component {
               </div>
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  name="email" 
+                <input
+                  type="text"
+                  className="form-control"
+                  name="email"
                   placeholder="LastName"
                   value={signUpLastName}
                   onChange={this.onTextboxChangeSignUpLastName}
@@ -360,9 +380,9 @@ class Home extends Component {
               </div>
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-calendar"></i></span>
-                <input 
-                  type="date" 
-                  className="form-control" 
+                <input
+                  type="date"
+                  className="form-control"
                   id="birthday"
                   placeholder="BirthDay"
                   value={signUpDate}
@@ -372,19 +392,19 @@ class Home extends Component {
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
                 <div className="container row">
-                    <div className="radio">
-                      <label className="radiospace"><input onClick={() => this.onTextboxChangeSignUpSex('Male')} type="radio" name="sex"/>Male</label>
-                      <label className="radiospace"><input onClick={() => this.onTextboxChangeSignUpSex('Female')} type="radio" name="sex"/>Female</label>
-                    </div>
+                  <div className="radio">
+                    <label className="radiospace"><input onClick={() => this.onTextboxChangeSignUpSex('Male')} type="radio" name="sex" />Male</label>
+                    <label className="radiospace"><input onClick={() => this.onTextboxChangeSignUpSex('Female')} type="radio" name="sex" />Female</label>
+                  </div>
 
                 </div>
               </div>
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  name="email" 
+                <input
+                  type="text"
+                  className="form-control"
+                  name="email"
                   placeholder="Address"
                   value={signUpAddress}
                   onChange={this.onTextboxChangeSignUpAddress}
@@ -393,10 +413,10 @@ class Home extends Component {
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-envelope"></i></span>
                 <div className="col-md-8">
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    name="email" 
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="email"
                     id="email"
                     placeholder="Email"
                     value={signUpEmail}
@@ -409,69 +429,44 @@ class Home extends Component {
               </div>
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
-                <input 
-                  type="password" 
-                  className="form-control" 
+                <input
+                  type="password"
+                  className="form-control"
                   placeholder="password"
                   value={signUpPassword}
                   onChange={this.onTextboxChangeSignUpPassword}
-              />
+                />
               </div>
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-lock"></i></span>
-                <input 
-                  type="password" 
-                  className="form-control" 
+                <input
+                  type="password"
+                  className="form-control"
                   placeholder="Confirm Password"
                   value={signUpConfirmPassword}
                   onChange={this.onTextboxChangeSignUpConfirmPassword}
                 />
               </div>
-                
+
               <br></br>
               <div className="row input-group" id="loginBtnGroup">
                 <button onClick={this.onSignUp} className="btn btn-default">Register</button>
                 <button onClick={this.showlogin} className="btn btn-link">Log in</button>
-                
+
               </div>
             </div>
           </div>
-          <style>{"\
-          #signup{\
-            display:none;\
-            margin-top:5%;\
-          }\
-          #signin{\
-            margin-top:5%;\
-          }\
-          .input-group{\
-            margin-top:1%;\
-          }\
-          #email{\
-            margin-left:-15px;\
-            width:280px;\
-          }\
-          #birthday{\
-            width:60%;\
-          }\
-          .radiospace{\
-            float:left;\
-            margin-left:30px;\
-          }\
-        "}</style>
         </div>
-        
+
       );
     }
-
-    return(
-      <div>
-        <div className="col-md-12">
-          <Chartboard/>
-        </div>
-      </div>
+    return (
+      <div className="ui icon input">
+        return <Redirect to={"/chartboard/" + token} />;
+         </div>
     );
   }
+
 }
 
 export default Home;

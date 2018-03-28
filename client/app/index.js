@@ -14,7 +14,7 @@ import Home from './components/Home/Home';
 import Verify from './components/Verify/verify';
 
 import HelloWorld from './components/HelloWorld/HelloWorld';
-
+import Chartboard from './components/Mainpages/Chartboard';
 import './styles/styles.scss';
 
 render((
@@ -24,6 +24,7 @@ render((
         <Route exact path="/" component={Home}/>
         <Route path="/helloworld" component={HelloWorld}/>
         <Route path="/mailverify/:token" component={ Verify } />
+        <Route path="/chartboard/:token" component={ Chartboard } />
         <Route component={NotFound}/>
       </Switch>
     </App>
