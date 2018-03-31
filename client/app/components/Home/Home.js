@@ -339,12 +339,12 @@ class Home extends Component {
                 </div>
                 <br></br>
                 <div className="row input-group">
-                  <input type="checkbox" id="rememberpwd" onClick={this.onCheck.bind(this)} defaultChecked={this.state.checked} /><span>Remember User</span>
+                  <input type="checkbox" className="mdl-checkbox__input" id="rememberpwd" onClick={this.onCheck.bind(this)} defaultChecked={this.state.checked} /><span>Remember User</span>
                 </div>
                 <br />
                 <div className="row input-group" id="loginBtnGroup">
-                  <button onClick={this.onSignIn} className="btn btn-default">Log In</button>
-                  <button onClick={this.showsignup} className="btn btn-link">Register</button>
+                  <button onClick={this.onSignIn} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Log In</button>
+                  <button onClick={this.showsignup} className="mdl-button mdl-js-button mdl-button--primary">Register</button>
                 </div>
               </div>
             </div>
@@ -391,10 +391,16 @@ class Home extends Component {
               </div>
               <div className="row input-group">
                 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-                <div className="container row">
+                <div className=" row">
                   <div className="radio">
-                    <label className="radiospace"><input onClick={() => this.onTextboxChangeSignUpSex('Male')} type="radio" name="sex" />Male</label>
-                    <label className="radiospace"><input onClick={() => this.onTextboxChangeSignUpSex('Female')} type="radio" name="sex" />Female</label>
+                    <label className="mdl-radio mdl-js-radio mdl-js-ripple-effect radiospace" >
+                      <input onClick={() => this.onTextboxChangeSignUpSex('Male')} type="radio" id="option-1" className="mdl-radio__button" name="sex" />
+                      Male
+                    </label>
+                    <label className="mdl-radio mdl-js-radio mdl-js-ripple-effect radiospace">
+                      <input onClick={() => this.onTextboxChangeSignUpSex('Female')} type="radio" id="option-1" className="mdl-radio__button" name="sex" />
+                      Female
+                    </label>
                   </div>
 
                 </div>
@@ -424,7 +430,7 @@ class Home extends Component {
                   />
                 </div>
                 <div className="col-md-3">
-                  <button onClick={this.onSignUpTest} className="btn btn-warning">Duplication</button>
+                  <button onClick={this.onSignUpTest} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Duplication</button>
                 </div>
               </div>
               <div className="row input-group">
@@ -450,8 +456,8 @@ class Home extends Component {
 
               <br></br>
               <div className="row input-group" id="loginBtnGroup">
-                <button onClick={this.onSignUp} className="btn btn-default">Register</button>
-                <button onClick={this.showlogin} className="btn btn-link">Log in</button>
+                <button onClick={this.onSignUp} className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Register</button>
+                <button onClick={this.showlogin} className="mdl-button mdl-js-button mdl-button--primary">Log in</button>
 
               </div>
             </div>

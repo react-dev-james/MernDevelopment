@@ -33,7 +33,7 @@ mongo.connect('mongodb://localhost:27017/login_demo',function(err,db){
           if(err)
             throw err;
 
-          socket.emit('output', res);
+          socket.emit('output1', res);
       });
 
       socket.on('input',function(data){
@@ -43,8 +43,8 @@ mongo.connect('mongodb://localhost:27017/login_demo',function(err,db){
           if(name == '' || message == ''){
               sendStatus('Please enter data!');
           }else{
-              chat.insert({name:name,message:message},function(){
-                  client.emit('output',[data]);
+              chat.insert({name:name,message:message},function(aa){
+                  client.emit('output',data);
 
                   sendStatus({
                     message:'Success',

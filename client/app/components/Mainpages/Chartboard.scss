@@ -7,7 +7,7 @@ $background_color_3: #fbfcdb;
 #Messagetxt{
 	width:90%;
 	margin-left:5%;
-	margin-top:60px;
+	margin-top:30px;
 	background-color: $background_color_3;
 }
 
@@ -40,15 +40,23 @@ span{
 }
 .inputspace{
 	margin-left:2%;
+	border-color:gray
 }
 .inputchatbox{
 	position: fixed;
-	margin-top: 40%;
-	overflow: hidden;
-	order: 1;
-    flex-shrink: 0;overflow-y: hidden;
+    bottom: 0px;
+    text-align: left;
+    background: white;
+	vertical-align: middle;
+	max-height: 150px;margin-left:5%;
 }
-
-.messagelsit{
-	overflow-y: hidden;position: relative;
+.inputchatbox div{
+	padding-bottom: 8px;
+}
+.messagelsit {
+	position: fixed;
+    top: 10px;
+    bottom: 78px;
+	overflow-y: scroll;
+	max-height: 100%;
 }
