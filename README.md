@@ -35,15 +35,15 @@ By default, you can visit the API in your web browser at `http://localhost:8080`
 ## Screenshots
 
 ### Login
-![screenshort](https://github.com/DedicatedWebStar/MernDevelopment/blob/master/screenshort/signin.png?raw=true)Pp
+![screenshort](https://github.com/DedicatedWebStar/MernDevelopment/blob/master/screenshort/signin.png?raw=true)
 
 ### Register
-![screenshort](https://github.com/DedicatedWebStar/MernDevelopment/blob/master/screenshort/signup.png?raw=true)Pp
+![screenshort](https://github.com/DedicatedWebStar/MernDevelopment/blob/master/screenshort/signup.png?raw=true)
 
 ### BrowserNotification
-![screenshort](https://github.com/DedicatedWebStar/MernDevelopment/blob/master/screenshort/browserNotificatoin.png?raw=true)Pp
+![screenshort](https://github.com/DedicatedWebStar/MernDevelopment/blob/master/screenshort/browserNotificatoin.png?raw=true)
 
 ### UnreadMessage Tab
-![screenshort](https://github.com/DedicatedWebStar/MernDevelopment/blob/master/screenshort/UnreadmessageTab.png?raw=true)Pp
+![screenshort](https://github.com/DedicatedWebStar/MernDevelopment/blob/master/screenshort/UnreadmessageTab.png?raw=true)
 
 ...
