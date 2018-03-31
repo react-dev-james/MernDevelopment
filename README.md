@@ -44,10 +44,10 @@ By default, you can visit the API in your web browser at `http://localhost:8080`
 
 ### BrowserNotification
 ![ScreenShot]
-(https://raw.github.com/MernDevelopment/tree/master/screenshort/browserNotificatoin.png)
+(https://raw.github.com/DedicatedWebStar/MernDevelopment/tree/master/screenshort/browserNotificatoin.png)
 
 ### UnreadMessage Tab
 ![ScreenShot]
-(https://raw.github.com/MernDevelopment/tree/master/screenshort/UnreadmessageTab.png)
+(https://github.com/DedicatedWebStar/MernDevelopment/tree/master/screenshort/UnreadmessageTab.png)
 
 ...
