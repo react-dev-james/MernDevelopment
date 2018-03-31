@@ -21,7 +21,6 @@ Frontend:
 ```bash
 # Install the dependencies.
 $ cd .
-$ npm install -g @angular/cli
 $ npm install
 
 ### Run the App
