@@ -8,6 +8,7 @@ import {
 import Mainboard from '../Mainpages/Mainboard';
 import Chartboard from '../Mainpages/Chartboard';
 import './Home.scss';
+
 class Home extends Component {
 
   constructor(props) {
@@ -57,10 +58,6 @@ class Home extends Component {
   componentWillMount() {
 
     console.log(this.state)
-
-    // const flag=localStorage.getItem('flag');
-    // this.setState({checked: flag});
-    // alert(this.state.checked)
   }
   showlogin() {
     document.getElementById("signin").style.display = 'block';
