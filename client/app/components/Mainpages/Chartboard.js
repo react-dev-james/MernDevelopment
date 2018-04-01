@@ -20,7 +20,7 @@ const Chartboard = (props) => {
   });
   if (token) {
     return (
-      <div id="body">
+      <div id="body" >
         <MessagesList />
         <Inputspace />
       </div>
@@ -40,7 +40,7 @@ class MessagesList extends React.Component {
     this.state = {
       messages : [],
       notificationmsg : '',
-      notificationname:'',
+      notificationname:''
     }
     this.showNotifications = this.showNotifications.bind(this);
     this.handleClick = this.handleClick.bind(this);
