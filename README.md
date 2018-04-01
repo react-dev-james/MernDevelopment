@@ -8,7 +8,6 @@ Backend:
 * Node.js
 * Express.js
 * MongoDB
-
 Frontend:
 
 * React.js
