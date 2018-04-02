@@ -54,12 +54,8 @@ class MessagesList extends React.Component {
       console.log(currentDate)
       console.log(lastDate)
       if(lastDate === currentDate){
-        console.log('a')
-        console.log('-----------------------')
         return false;
       }else{
-        console.log('b')
-        console.log('-----------------------')
           return true;
       }
      
@@ -109,7 +105,6 @@ class MessagesList extends React.Component {
     this.n.close(event.target.tag);
   }
   render() {
-    // const messages=this.props.messages; 
     if (this.state.messages) {
       
       
