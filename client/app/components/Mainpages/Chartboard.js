@@ -212,4 +212,26 @@ class Inputspace extends React.Component {
 
   }
 
+  onChangeHandler(e) {
+    this.setState({ msg: e.target.value })
+  }
+
+  render() {
+    
+    const { tempMsgs, msg } = this.state;
+    return (
+      <div className="col-md-12 inputchatbox">
+        <div>
+          {tempMsgs.map((m, k) => {
+            return (
+              <span key={k} style={{ display: "block" }}>{m}</span>
+            )
+          })}
+          <input value={msg} onChange={this.onChangeHandler.bind(this)} type="text" className="inputspace form-control" onKeyPress={this.submitMsg.bind(this)} placeholder="Message Text" id="Messagetxt" />
+        </div>
+      </div>
+
+    );
+  }
+}
 export default Chartboard;
