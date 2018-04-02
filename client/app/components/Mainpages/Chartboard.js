@@ -19,6 +19,7 @@ const Chartboard = (props) => {
   window.addEventListener('blur', function() {
     browserstate=0;
   });
+  //if token exist, go to main board. else redirect to the login
   if (token) {
     return (
       <div id="body" >
@@ -34,7 +35,7 @@ const Chartboard = (props) => {
     );
   }
 }
-
+//Message board
 class MessagesList extends React.Component {
   constructor(props) {
     super(props);
