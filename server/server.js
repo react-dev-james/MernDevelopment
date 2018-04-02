@@ -39,11 +39,13 @@ mongo.connect('mongodb://localhost:27017/login_demo',function(err,db){
       socket.on('input',function(data){
           let name = data.name;
           let message = data.message;
+          let date = data.date;
 
           if(name == '' || message == ''){
               sendStatus('Please enter data!');
           }else{
-              chat.insert({name:name,message:message},function(aa){
+              chat.insert({name:name,message:message, date:date},function(aa){
+                  console.log()
                   client.emit('output',data);
 
                   sendStatus({
