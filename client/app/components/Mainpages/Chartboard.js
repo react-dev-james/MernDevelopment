@@ -176,4 +176,40 @@ class Inputspace extends React.Component {
     }
   }
 
-  
+  submitMsg(e) {
+
+    if (e.charCode == 13) {
+      if (e.nativeEvent.shiftKey) {
+        const { tempMsgs } = this.state;
+        tempMsgs.push(e.target.value);
+        this.setState({ tempMsgs: tempMsgs, msg: '' });
+      } else {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10) {
+            dd = '0'+dd
+        } 
+
+        if(mm<10) {
+            mm = '0'+mm
+        } 
+
+        var curdate = mm + '/' + dd + '/' + yyyy;
+        const { tempMsgs } = this.state;
+        tempMsgs.push(e.target.value);
+        socket.emit('input', {
+          name: localStorage.getItem('name'),
+          message: tempMsgs,
+          date: moment().unix()
+        });
+        this.setState({ tempMsgs: [], msg: '' });
+      }
+
+    }
+
+  }
+
+export default Chartboard;
