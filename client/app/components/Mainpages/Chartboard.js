@@ -73,8 +73,10 @@ class MessagesList extends React.Component {
       console.log(data)
       if(browserstate==0)
         document.title = 'Slack Chat APP*';
+
       this.setState({notificationmsg:data.message})
       this.setState({notificationname:data.name})
+      
       this.showNotifications()
       const{messages}=this.state;
       messages.push(data)
